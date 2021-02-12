@@ -2,6 +2,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
+var rooms = [0000];
+var hosts = [];
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -30,6 +32,7 @@ io.on('connection', function(socket) {
   socket.on('create', function(data) {
     io.emit('chat message', 'Socket Joined Room: ' + data)
     socket.room = data;
+    rooms.push(data);
     socket.join(data);
   });
   
@@ -37,6 +40,14 @@ io.on('connection', function(socket) {
     io.emit('chat message', 'Socket Joined Room: ' + data)
     socket.room = data;
     socket.join(data);
+  });
+  
+  socket.on('getRooms', function(data){
+    io.in(socket.room).emit('getRooms', rooms);
+  });
+  
+  socket.on('getHosts',function(data){
+    io.in(socket.room).emit('getHosts', hosts);
   });
   
   socket.on('chat', function(data) {
