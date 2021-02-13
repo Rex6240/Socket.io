@@ -42,12 +42,12 @@ io.on('connection', function(socket) {
     socket.join(data);
   });
   
-  socket.on('getRooms', function(data){
-    io.in(socket.room).emit('getRooms', rooms);
+  socket.on('sendUpdate', function(data){
+    io.in(socket.room).emit('sendUpdate', data);
   });
   
-  socket.on('getHosts',function(data){
-    io.in(socket.room).emit('getHosts', hosts);
+  socket.on('sendLeave', function(data){
+    io.in(socket.room).emit('sendLeave', data);
   });
   
   socket.on('chat', function(data) {
