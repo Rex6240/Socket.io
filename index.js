@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
-var rooms = [0000];
+var rooms = [];
 var hosts = [];
 
 app.get('/', function(req, res){
